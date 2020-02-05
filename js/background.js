@@ -16,8 +16,17 @@
   });
 });*/
 
-//CREATE LIST OF TAB IDS
+//CREATE LIST OF TAB IDS create-divider-right/left chrome.tabs.create({index: (chrome.tabs.getCurrent().index - 1), pinned: true});
 
-chrome.commands.onCommand.addListener("create-divider-left") {
-    chrome.tabs.create({index: (chrome.tabs.getCurrent().index + 1), pinned: true});
-}
+chrome.commands.onCommand.addListener(function(command) {
+    if (command == 'create-divider-left') {
+        chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+            chrome.tabs.create({index: (tabs[0].index - 1), url: 'index.html', pinned: false}); //note to self: can't mixed pinned tabs :( make them unclosable?
+        });
+        //chrome.tabs.create({index: (chrome.tabs.getCurrent().index - 1), pinned: false});
+    } else { //create-divider-right
+        chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+            chrome.tabs.create({index: (tabs[0].index + 1), url: 'index.html', pinned: false});
+        });
+    }
+});

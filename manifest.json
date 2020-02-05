@@ -1,10 +1,10 @@
 {
+  "manifest_version": 2,
   "name": "Tab Partitions",
   "description": "Create simple dividers between groups of tabs in your browser.",
   "version": "1.0",
-  "manifest_version": 2,
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["js/background.js"],
     "persistent": false
   },
   "browser_action": {
@@ -28,9 +28,14 @@
     }
   },
   "icons": {
-    "16": "images/tabFlipper16.png",
-    "32": "images/tabFlipper32.png",
-    "48": "images/tabFlipper48.png",
-    "128": "images/tabFlipper128.png"
-  }
+    "16": "images/tabSections16.png",
+    "32": "images/tabSections32.png",
+    "48": "images/tabSections48.png",
+    "128": "images/tabSections128.png"
+  },
+  "permissions": ["tabs"]
 }
+
+/*"content_scripts": [ {
+      "js": [ "content.js" ]
+    } ],*/
