@@ -1,32 +1,44 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-/*chrome.commands.onCommand.addListener(function(command) {
-  chrome.tabs.query({currentWindow: true}, function(tabs) {
-    // Sort tabs according to their index in the window.
-    tabs.sort((a, b) => { return a.index < b.index; });
-    let activeIndex = tabs.findIndex((tab) => { return tab.active; });
-    let lastTab = tabs.length - 1;
-    let newIndex = -1;
-    if (command === 'flip-tabs-forward')
-      newIndex = activeIndex === 0 ? lastTab : activeIndex - 1;
-    else  // 'flip-tabs-backwards'
-      newIndex = activeIndex === lastTab ? 0 : activeIndex + 1;
-    chrome.tabs.update(tabs[newIndex].id, {active: true, highlighted: true});
-  });
-});*/
+// Copyleft 2020 Jared Butler
 
-//CREATE LIST OF TAB IDS create-divider-right/left chrome.tabs.create({index: (chrome.tabs.getCurrent().index - 1), pinned: true});
+var markers = [];
+//var sections = [];
+
+//SETTINGS
+var spawnNewSectionAtMarker = true;
+
+chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) { //garbage collecting
+    if(markers.includes(tabId)) {
+        markers.splice(markers.indexOf(tabId), 1);
+        //console.log(tabId);
+    }
+});
 
 chrome.commands.onCommand.addListener(function(command) {
     if (command == 'create-divider-left') {
         chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            chrome.tabs.create({index: (tabs[0].index - 1), url: 'index.html', pinned: false}); //note to self: can't mixed pinned tabs :( make them unclosable?
+            if(markers.includes(tabs[0].id) && spawnNewSectionAtMarker) { //if this works CONSISTENTLY, the marker tracker works!
+                chrome.tabs.create({index: (tabs[0].index), active: true, pinned: false}); //new tab
+                chrome.tabs.create({index: (tabs[0].index), url: 'index.html', active: false, pinned: false}, function(tab) {
+                    markers.push(tab.id);
+                }); //left border
+            } else {
+                chrome.tabs.create({index: (tabs[0].index), url: 'index.html', active: false, pinned: false}, function(tab) {
+                    markers.push(tab.id);
+                });
+            }
         });
-        //chrome.tabs.create({index: (chrome.tabs.getCurrent().index - 1), pinned: false});
     } else { //create-divider-right
         chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            chrome.tabs.create({index: (tabs[0].index + 1), url: 'index.html', pinned: false});
+            if(markers.includes(tabs[0].id) && spawnNewSectionAtMarker) { //if this works CONSISTENTLY, the marker tracker works!
+                chrome.tabs.create({index: (tabs[0].index + 1), url: 'index.html', active: false, pinned: false}, function(tab) {
+                    markers.push(tab.id);
+                }); //right border
+                chrome.tabs.create({index: (tabs[0].index + 1), active: true, pinned: false}); //new tab
+            } else {
+                chrome.tabs.create({index: (tabs[0].index + 1), url: 'index.html', active:false, pinned: false}, function(tab) {
+                    markers.push(tab.id);
+                });
+            }
         });
     }
 });
