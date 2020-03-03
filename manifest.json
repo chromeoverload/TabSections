@@ -25,6 +25,13 @@
         "mac": "Command+Shift+Left"
       },
       "description": "creates a divider to the left"
+    },
+    "delete-section": {
+      "suggested_key": {
+        "default": "Alt+W",
+        "mac": "Alt+W"
+      },
+      "description": "creates a divider to the left"
     }
   },
   "icons": {
