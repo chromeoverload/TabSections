@@ -1,0 +1,27 @@
+{
+  "name": "tabsections",
+  "version": "1.0.0",
+  "description": "Create simple partitions between sections of tabs in your browser",
+  "main": "js/background.js",
+  "scripts": {
+    "test": "echo 'What's up?"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chromeoverload/TabSections.git"
+  },
+  "keywords": [
+    "extension",
+    "chrome",
+    "organization"
+  ],
+  "author": "Jared Butler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chromeoverload/TabSections/issues"
+  },
+  "homepage": "https://github.com/chromeoverload/TabSections#readme",
+  "dependencies": {
+    "chrome-extension-async": "^3.4.1"
+  }
+}
