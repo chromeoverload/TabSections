@@ -68,6 +68,13 @@ chrome.commands.onCommand.addListener(function(command) {
                 chrome.tabs.remove(tabs[i].id);
             }
         });
+    } else if (command == 'create-tab') {
+        chrome.tabs.query({currentWindow: true}, function(tabs) {
+            var bounds = getBounds(tabs);
+            console.log(tabs[bounds[1]].index);
+
+            chrome.tabs.create({index: (tabs[bounds[1]].index)});
+        });
     } else { //create-divider-right
         //TAB LENGTH LOGIC (necessary??)
         var numTabs = -1;
